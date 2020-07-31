@@ -24,12 +24,13 @@ provider:
   name: aws
   runtime: nodejs12.x
 
-  stage: ${env.STAGE}
-  region: ${env.AWSREGION}
+  stage: ${env:STAGE}
+  region: ${env:AWSREGION}
 
   tags:
     department: department-name # TODO: Add department name
     service: service-name # TODO: Add service name, if applicable
+    environment: ${env:STAGE} # For keeping track of costs between various stages
 
   # you can add statements to the Lambda function's IAM Role here
   # iamRoleStatements:
@@ -59,6 +60,8 @@ package:
   exclude:
   - .gitignore
   - .env
+  - .env.development
+  - .env.production
   - package-lock.json
   - serverless.yml
     
