@@ -9,3 +9,6 @@ Each template will have basic starter files including:
 - testing folder structure
 - .gitignore with applicable settings
 - .env file(s) with applicable variables
+
+## To initialize a Serverless project with a template
+Run ```serverless create --template-url {URL TO GITHUB FOLDER OF THE TEMPLATE}```
