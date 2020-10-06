@@ -1,9 +1,3 @@
-## Resources:
-# Serverless yml file: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/
-# Serverless events definition: https://www.serverless.com/framework/docs/providers/aws/events/
-# AWS CloudFormation Resources: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
-# AWS resource and proptery types reference: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html
-
 service: service-name # TODO: Update with service name (the name of the microservice)
 
 provider:
