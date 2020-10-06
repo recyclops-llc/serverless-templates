@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "ISC",
   "scripts": {
+    "lint": "npx eslint --fix",
     "deploy:dev": "serverless deploy --aws-profile=uswest2 --env development",
     "deploy:prod": "serverless deploy --aws-profile=uswest2 --env production",
     "test": "exit 0"
@@ -19,17 +20,19 @@
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
     "jest": "^26.0.1",
+    "lint-staged": "^10.4.0",
     "prettier": "^2.1.2",
     "serverless-dotenv-plugin": "^2.4.2",
     "serverless-offline": "^6.5.0"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npx lint-staged"
     }
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "*.js": "eslint --cache --fix"
   }
 }

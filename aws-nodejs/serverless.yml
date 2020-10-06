@@ -1,24 +1,10 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
+## Resources:
+# Serverless yml file: https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/
+# Serverless events definition: https://www.serverless.com/framework/docs/providers/aws/events/
+# AWS CloudFormation Resources: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+# AWS resource and proptery types reference: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html
 
-service: service-name # TODO: Update with service name
-# app and org for use with dashboard.serverless.com
-#app: your-app-name
-#org: your-org-name
-
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-# frameworkVersion: "=X.X.X"
+service: service-name # TODO: Update with service name (the name of the microservice)
 
 provider:
   name: aws
@@ -30,86 +16,90 @@ provider:
   tags:
     department: department-name # TODO: Add department name
     service: service-name # TODO: Add service name, if applicable
-    environment: self.stage # For keeping track of costs between various stages
+    environment: self.stage # For keeping track of costs between various stages (e.g. dev vs prod)
 
-  # you can add statements to the Lambda function's IAM Role here
-  # iamRoleStatements:
-  #   - Effect: "Allow"
-  #     Action:
-  #       - "s3:ListBucket"
-  #     Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-  #   - Effect: "Allow"
-  #     Action:
-  #       - "s3:PutObject"
-  #     Resource:
-  #       Fn::Join:
-  #         - ""
-  #         - - "arn:aws:s3:::"
-  #           - "Ref" : "ServerlessDeploymentBucket"
-  #           - "/*"
-
-  # you can define service wide environment variables here
+  # Define service wide environment variables here
   # environment:
   #   variable1: value1
 
-  # you can add packaging information here
-package:
-  # include:
-  #   - include-me.js
-  #   - include-me-dir/**
-  exclude:
-  - .gitignore
-  - .env
-  - .env.development
-  - .env.production
-  - package-lock.json
-  - serverless.yml
-    
-functions:
-  main:
-    memorySize: 128
-    timeout: 60
-    handler: index.handler
-    # environment:
-    #   ENV_VARIABLE: ${ENV_VALUE}
+package: # https://www.serverless.com/framework/docs/providers/aws/guide/packaging#package-configuration
+  include:
+    - controllers/**
+    - node_modules/**
+  # exclude:
+  #   - .env
+  #   - .env.development
+  #   - .env.production
+  #   - .eslintignore
+  #   - .eslintrc.json
+  #   - .gitignore
+  #   - package-lock.json
+  #   - .prettierignore
+  #   - .prettierrc.json
+  #   - README.md
+  #   - serverless.yml
+  #   - tests/**
 
-    # The following are a few example events you can configure
-    # NOTE: Please make sure to change your handler code to work with those events
-    # Check the event documentation for details
-    # events:
-    #   - http:
-    #       path: users/create
-    #       method: get
-    #   - websocket: $connect
-    #   - s3: ${env:BUCKET}
-    #   - schedule: rate(10 minutes)
-    #   - sns: greeter-topic
-    #   - stream: arn:aws:dynamodb:region:XXXXXX:table/foo/stream/1970-01-01T00:00:00.000
-    #   - alexaSkill: amzn1.ask.skill.xx-xx-xx-xx
-    #   - alexaSmartHome: amzn1.ask.skill.xx-xx-xx-xx
-    #   - iot:
-    #       sql: "SELECT * FROM 'some_topic'"
-    #   - cloudwatchEvent:
-    #       event:
-    #         source:
-    #           - "aws.ec2"
-    #         detail-type:
-    #           - "EC2 Instance State-change Notification"
-    #         detail:
-    #           state:
-    #             - pending
-    #   - cloudwatchLog: '/aws/lambda/hello'
-    #   - cognitoUserPool:
-    #       pool: MyUserPool
-    #       trigger: PreSignUp
-    #   - alb:
-    #       listenerArn: arn:aws:elasticloadbalancing:us-east-1:XXXXXX:listener/app/my-load-balancer/50dc6c495c0c9188/
-    #       priority: 1
-    #       conditions:
-    #         host: example.com
-    #         path: /hello
+functions:
+  ## TODO:
+  # Rename line 49
+  # This is the function name. By convention we name our controller files and functions by the event type trigger (e.g. api, sqs, sns), follwed by file name (e.g. api-post-create-user)
+  api-post-create-user:
+    memorySize: 128
+    timeout: 5
+    handler: controllers/api-get-all-users.handler # TODO: Update file name, then update here
+    events: # https://www.serverless.com/framework/docs/providers/aws/events/
+      - http:
+          path: user/
+          method: post
+          cors: true
+    # environment: # Define function specific environment variables here
+    #   ENV_VARIABLE: ${ENV_VALUE}
+  sqs-create-user:
+    memorySize: 128
+    timeout: 20
+    handler: controllers/sqs-create-user.handler #TODO: Rename file and update here
+    events:
+      - sqs:
+          arn: !GetAtt sqsCreateUser.Arn # TODO: Update with correct logical id
+          batchSize: 1
+  sqs-dlq-create-user: # TODO: Rename file and update here
+    memorySize: 128
+    timeout: 20
+    handler: controllers/sqs-dlq-create-user.handler #TODO: Rename file and update here
+    events:
+      - sqs:
+          arn: !GetAtt sqsCreateUserDLQ.Arn # TODO: Update with correct logical id
+          batchSize: 1
+
+resources: # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+  Resources:
+    ## TODO:
+    # Rename line 75 -- this is the resource logical id (see link at top of page for more info)
+    # We use a convention of putting the resource type (e.g. sns, sqs, dynamo) first, and then camelCasing the rest
+    snsCreateUser:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${self:provider.stage}-create-user
+        Subscription:
+          - Endpoint: !GetAtt sqsCreateUser.Arn # TODO: Update with correct logical id
+            Protocol: sqs
+    sqsCreateUser: # TODO: Rename
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${self:provider.stage}-create-user # TODO: Rename everything after "${self:provider.stage}-""
+        MessageRetentionPeriod: 1209600 # 14 days in seconds
+        ReceiveMessageWaitTimeSeconds: 20
+        VisibilityTimeout: 120
+        RedrivePolicy:
+          deadLetterTargetArn: !GetAtt sqsCreateUserDLQ.Arn # TODO: Update with correct logical id
+          maxReceiveCount: 1
+      sqsCreateUserDLQ:
+        Type: AWS::SQS::Queue
+        Properties:
+          QueueName: ${self:provider.stage}-create-user-dlq # TODO: Rename everything after "${self:provider.stage}-""
+          MessageRetentionPeriod: 1209600
 
 plugins:
-  - serverless-dotenv-plugin
-  # - serverless-dynamodb-local
-  # - serverless-offline
+  - serverless-dotenv-plugin # https://www.serverless.com/plugins/serverless-dotenv-plugin
+  - serverless-offline # https://www.serverless.com/plugins/serverless-offline
