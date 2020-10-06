@@ -1,10 +1,12 @@
-# package directories
+# Environment files
+.env
+.env.*
+
+# ES Lint
+.eslintcache
+
+# NPM directories
 node_modules
-jspm_packages
 
 # Serverless directories
 .serverless
-
-# environment
-.env
-.env.*
