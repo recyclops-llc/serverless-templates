@@ -1,0 +1,35 @@
+{
+  "name": "",
+  "version": "1.0.0",
+  "license": "ISC",
+  "scripts": {
+    "deploy:dev": "serverless deploy --aws-profile=uswest2 --env development",
+    "deploy:prod": "serverless deploy --aws-profile=uswest2 --env production",
+    "test": "exit 0"
+  },
+  "dependencies": {
+    "@sentry/serverless": "^5.24.2",
+    "axios": "^0.19.2"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.727.1",
+    "chai": "^4.2.0",
+    "eslint": "^7.10.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.0.1",
+    "prettier": "^2.1.2",
+    "serverless-dotenv-plugin": "^2.4.2",
+    "serverless-offline": "^6.5.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}

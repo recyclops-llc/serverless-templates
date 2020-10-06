@@ -30,7 +30,7 @@ provider:
   tags:
     department: department-name # TODO: Add department name
     service: service-name # TODO: Add service name, if applicable
-    environment: ${env:STAGE} # For keeping track of costs between various stages
+    environment: self.stage # For keeping track of costs between various stages
 
   # you can add statements to the Lambda function's IAM Role here
   # iamRoleStatements:
