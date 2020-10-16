@@ -9,8 +9,8 @@ provider:
 
   tags:
     department: department-name # TODO: Add department name
-    service: service-name # TODO: Add service name, if applicable
-    environment: self.stage # For keeping track of costs between various stages (e.g. dev vs prod)
+    service: self.service
+    environment: self.provider.stage # For keeping track of costs between various stages (e.g. dev vs prod)
 
   # Define service wide environment variables here
   # environment:
@@ -19,6 +19,7 @@ provider:
 package: # https://www.serverless.com/framework/docs/providers/aws/guide/packaging#package-configuration
   include:
     - controllers/**
+    - services/**
     - node_modules/**
   # exclude:
   #   - .env
@@ -41,7 +42,7 @@ functions:
   api-post-create-user:
     memorySize: 128
     timeout: 5
-    handler: controllers/api-get-all-users.handler # TODO: Update file name, then update here
+    handler: controllers/api-post-create-user.handler # TODO: Update file name, then update here
     events: # https://www.serverless.com/framework/docs/providers/aws/events/
       - http:
           path: user/
