@@ -95,6 +95,12 @@ resources: # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/reso
           QueueName: ${self:provider.stage}-create-user-dlq # TODO: Rename everything after "${self:provider.stage}-""
           MessageRetentionPeriod: 1209600
 
+custom:
+  prune: 
+    automatic: true
+    number: 5
+
 plugins:
+  - serverless-prune-plugin # https://www.serverless.com/plugins/serverless-prune-plugin
   - serverless-dotenv-plugin # https://www.serverless.com/plugins/serverless-dotenv-plugin
   - serverless-offline # https://www.serverless.com/plugins/serverless-offline
