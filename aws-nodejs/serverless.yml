@@ -18,8 +18,7 @@ provider:
 
 package: # https://www.serverless.com/framework/docs/providers/aws/guide/packaging#package-configuration
   include:
-    - controllers/**
-    - services/**
+    - dist/**
     - node_modules/**
   # exclude:
   #   - .env
@@ -39,10 +38,10 @@ functions:
   ## TODO:
   # Rename line 49
   # This is the function name. By convention we name our controller files and functions by the event type trigger (e.g. api, sqs, sns), follwed by file name (e.g. api-post-create-user)
-  api-post-create-user:
+  api-rest-post-create-user:
     memorySize: 128
     timeout: 5
-    handler: controllers/api-post-create-user.handler # TODO: Update file name, then update here
+    handler: handlers/api-post-create-user.handler # TODO: Update file name, then update here
     events: # https://www.serverless.com/framework/docs/providers/aws/events/
       - http:
           path: user/
@@ -53,7 +52,7 @@ functions:
   sqs-create-user:
     memorySize: 128
     timeout: 20
-    handler: controllers/sqs-create-user.handler #TODO: Rename file and update here
+    handler: handlers/sqs-create-user.handler #TODO: Rename file and update here
     events:
       - sqs:
           arn: !GetAtt sqsCreateUser.Arn # TODO: Update with correct logical id
@@ -61,7 +60,7 @@ functions:
   sqs-dlq-create-user: # TODO: Rename file and update here
     memorySize: 128
     timeout: 20
-    handler: controllers/sqs-dlq-create-user.handler #TODO: Rename file and update here
+    handler: handlers/sqs-dlq-create-user.handler #TODO: Rename file and update here
     events:
       - sqs:
           arn: !GetAtt sqsCreateUserDLQ.Arn # TODO: Update with correct logical id

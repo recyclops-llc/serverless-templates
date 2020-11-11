@@ -1,9 +1,15 @@
+# Babel
+dist
+
 # Environment files
 .env
 .env.*
 
 # ES Lint
 .eslintcache
+
+# Jest
+coverage
 
 # NPM directories
 node_modules

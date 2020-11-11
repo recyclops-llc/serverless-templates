@@ -1,6 +1,4 @@
 export default async function handler(event) {
-  // use Sentry
-
   return {
     statusCode: 200,
     headers: {
