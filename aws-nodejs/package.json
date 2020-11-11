@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "license": "ISC",
   "scripts": {
-    "build": "babel handlers services -d dist --ignore '**/*.test.js'",
     "lint": "npx eslint --fix",
     "deploy:dev": "serverless deploy --aws-profile=uswest2 --env development",
     "deploy:prod": "serverless deploy --aws-profile=uswest2 --env production",
