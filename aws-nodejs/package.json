@@ -9,7 +9,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@sentry/serverless": "^5.24.2",
     "axios": "^0.21.1"
   },
   "devDependencies": {

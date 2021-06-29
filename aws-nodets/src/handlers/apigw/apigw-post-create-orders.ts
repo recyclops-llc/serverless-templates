@@ -23,7 +23,7 @@ export const handler: APIGatewayProxyHandler = apiGatewayHandlerWrapper(
     }
 
     // TODO: replace "any" type with correct interface that matches the shape of the expected request body
-    const orderRequestBody: any = JSON.parse(event.body);
+    const orderRequestBody: unknown = JSON.parse(event.body);
 
     try {
       // validate request body
