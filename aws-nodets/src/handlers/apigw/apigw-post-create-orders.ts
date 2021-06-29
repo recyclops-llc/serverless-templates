@@ -1,4 +1,4 @@
-import { APIGatewayProxyEvent, APIGatewayProxyHandler, Context } from 'aws-lambda';
+import { APIGatewayProxyEvent, APIGatewayProxyHandler } from 'aws-lambda';
 import { APIStatusCodeError } from '../../common/utils/errors';
 import { apiGatewayHandlerWrapper } from '../../common/middleware/apigw';
 import config from '../../config';
