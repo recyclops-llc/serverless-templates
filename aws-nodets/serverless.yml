@@ -1,0 +1,79 @@
+service: service-name # TODO: Update with service name (the name of the microservice)
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+  stage: ${env:STAGE}
+  region: ${env:AWSREGION}
+
+  tags:
+    department: department-name # TODO: Add department name
+    service: self.service
+    environment: self.provider.stage # For keeping track of costs between various stages (e.g. dev vs prod)
+
+  # Define service wide environment variables here
+  # environment:
+  #   variable1: value1
+
+package: # https://www.serverless.com/framework/docs/providers/aws/guide/packaging#package-configuration
+  include:
+    - dist/**
+    - node_modules/**
+  exclude:
+    - .env
+    - .env.development
+    - .env.production
+    - .eslintignore
+    - .eslintrc
+    - .gitignore
+    - package-lock.json
+    - .prettierignore
+    - .prettierrc
+    - README.md
+    - serverless.yml
+    - tsconfig.json
+    - tests/**
+
+functions:
+  ## TODO:
+  # Rename line 42 to the appropriate function name
+  # By convention we name our handler files and functions by the event type trigger (e.g. apigw, sqs, sns), follwed by file name (e.g. apigw-post-create-orders)
+  apigw-post-create-orders:
+    memorySize: 128
+    timeout: 6
+    handler: src/handlers/apigw/apigw-post-create-orders.handler
+    events: # https://www.serverless.com/framework/docs/providers/aws/events/
+      - http:
+          path: orders/
+          method: post
+          cors: true
+    # environment: # Define function specific environment variables here
+    #   ENV_VARIABLE: ${ENV_VALUE}
+  # sqs-create-orders: # TODO: Rename 
+  #   memorySize: 128
+  #   timeout: 20
+  #   handler: src/handlers/sqs/sqs-create-orders.handler #TODO: Rename file and update here
+  #   events:
+  #     - sqs:
+  #         arn:  # TODO: Update with correct logical id
+  #         batchSize: 1
+  # sqs-dlq-create-orders: # TODO: Rename 
+  #   memorySize: 128
+  #   timeout: 20
+  #   handler: src/handlers/sqs/sqs-dlq-create-orders.handler #TODO: Rename file and update here
+  #   events:
+  #     - sqs:
+  #         arn: # TODO: Update with correct logical id
+  #         batchSize: 1
+
+custom:
+  prune: 
+    automatic: true
+    number: 5
+
+plugins:
+  - serverless-prune-plugin # https://www.serverless.com/plugins/serverless-prune-plugin
+  - serverless-dotenv-plugin # https://www.serverless.com/plugins/serverless-dotenv-plugin
+  - serverless-offline # https://www.serverless.com/plugins/serverless-offline
+  - serverless-plugin-typescript # https://www.serverless.com/plugins/serverless-plugin-typescript
