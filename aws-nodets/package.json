@@ -11,10 +11,10 @@
     "deploy:prod": "serverless deploy --aws-profile=uswest2 --env production",
     "test": "jest"
   },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint . --fix", "git add"
-    ]
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged"
+    }
   },
   "dependencies": {
     "aws-lambda": "^1.0.6",
