@@ -4,6 +4,7 @@ export class APIStatusCodeError extends Error {
 
   constructor(statusCode: number, message: string) {
     super(message);
+    this.name = 'APIStatusCodeError';
     this.statusCode = statusCode;
   }
 }

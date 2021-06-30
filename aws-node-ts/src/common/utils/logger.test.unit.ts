@@ -1,4 +1,4 @@
-import { LogLevel } from "./../../schemas/";
+import { LogLevel } from "../../schemas";
 import { LoggerService } from "./logger";
 
 let loggerService: LoggerService;
@@ -6,29 +6,23 @@ let privateLogFunction: jest.SpyInstance;
 let privateAppendErrorFunction: jest.SpyInstance;
 let message: string;
 let params: {foo: string, abc: number};
-let errorName: string;
-let errorMessage: string;
-let stackTrace: string;
 let error: Error;
-let appendedError: {foo: string, abc: number, errorName: string, errorMessage: string, stackTrace: string};
+let errorAppended: {foo: string, abc: number, errorName: string, errorMessage: string, stackTrace: string | undefined};
 
 describe("LoggerService", () => {
     beforeAll(() => {
         loggerService = new LoggerService(LogLevel.DEBUG);
 
-        message = 'a test message';
+        message = 'message';
         params = {foo: 'bar', abc: 123};
 
-        errorName = 'errorName';
-        errorMessage = 'errorMessage';
-        stackTrace = 'stackTrace'
-        error = new Error(errorMessage);
+        error = new Error('errorMessage');
 
-        appendedError = {
+        errorAppended = {
             ...params,
-            errorName,
-            errorMessage,
-            stackTrace
+            errorName: error.name,
+            errorMessage: error.message,
+            stackTrace: error.stack
         };
     });
 
@@ -37,19 +31,12 @@ describe("LoggerService", () => {
         privateLogFunction.mockImplementation(() => {});
 
         privateAppendErrorFunction = jest.spyOn(LoggerService.prototype as any, 'appendError');
-        privateAppendErrorFunction.mockImplementation(() => {
-            return {
-                ...params,
-                errorName,
-                errorMessage,
-                stackTrace
-            };
-        });
+        privateAppendErrorFunction.mockImplementation(() => errorAppended);
     });
 
     afterEach(() => {
         jest.clearAllMocks();
-    })
+    });
 
     it("should call log() with proper parameters - debug", () => {
       // arrange
@@ -86,7 +73,7 @@ describe("LoggerService", () => {
         expect(privateAppendErrorFunction).toHaveBeenCalledWith(params, error);
 
         expect(privateLogFunction).toHaveBeenCalledTimes(1);
-        expect(privateLogFunction).toHaveBeenCalledWith(LogLevel.WARN, message, appendedError);
+        expect(privateLogFunction).toHaveBeenCalledWith(LogLevel.WARN, message, errorAppended);
       });
 
       it("should call log() with proper parameters - error", () => {
@@ -100,6 +87,6 @@ describe("LoggerService", () => {
         expect(privateAppendErrorFunction).toHaveBeenCalledWith(params, error);
 
         expect(privateLogFunction).toHaveBeenCalledTimes(1);
-        expect(privateLogFunction).toHaveBeenCalledWith(LogLevel.ERROR, message, appendedError);
+        expect(privateLogFunction).toHaveBeenCalledWith(LogLevel.ERROR, message, errorAppended);
       });
   });
