@@ -11,6 +11,9 @@
     "prepare": "husky install",
     "test": "jest"
   },
+  "engines": {
+    "node": ">=14.17.0"
+  },
   "dependencies": {
     "axios": "^0.21.1",
     "uuid": "^8.3.2"
