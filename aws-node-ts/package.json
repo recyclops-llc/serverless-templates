@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "ISC",
   "scripts": {
+    "build": "tsc",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "npm run lint -- --fix",
     "typecheck": "npx tsc --noEmit",
@@ -10,11 +11,6 @@
     "deploy:dev": "serverless deploy --aws-profile=uswest2 --env development",
     "deploy:prod": "serverless deploy --aws-profile=uswest2 --env production",
     "test": "jest"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "echo \"[HUSKY] pre-commit exit 0\""
-    }
   },
   "dependencies": {
     "axios": "^0.21.1",
