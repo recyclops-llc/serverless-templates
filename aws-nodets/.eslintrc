@@ -17,7 +17,7 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json",
-    "sourceType": "module"
+    "sourceType": "module" // Allows for the use of imports
   },
   "plugins": ["@typescript-eslint", "import"],
   "settings": {
@@ -37,7 +37,6 @@
     }
   },
   "rules": {
-    "@typescript-eslint/no-explicit-any": ["error"],
     "@typescript-eslint/no-shadow": ["error"], //https://stackoverflow.com/questions/63961803/eslint-says-all-enums-in-typescript-app-are-already-declared-in-the-upper-scope
     "class-methods-use-this": "off", //https://eslint.org/docs/rules/class-methods-use-this
     "import/extensions": "off", //https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/extensions.md
