@@ -16,7 +16,7 @@
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
     "@jest/globals": "^26.6.2",
-    "aws-sdk": "^2.727.1",
+    "aws-sdk": "^2.814.0",
     "eslint": "^7.10.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.12.0",
